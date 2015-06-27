@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+	Options +FollowSymLinks -Indexes
+
+	# Remove index.php from URL
+	RewriteCond %{HTTP:X-Requested-With}	!^XMLHttpRequest$
+	RewriteCond %{THE_REQUEST}				^[^/]*/index\.php [NC]
+	RewriteRule ^index\.php(.*)$			$1 [R=301,NS,L]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+
+    #accepted extensions that won't be treated with index file
+    RewriteRule !\.(js|ico|gif|jpg|png|css|txt|swf|flv|xml|zip|otf|eot|svg|ttf|woff)$ index.php [QSA,L]
+
+</IfModule>
